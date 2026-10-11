@@ -10,6 +10,21 @@
   box-sizing: border-box;
 }
 
+/* Tailwind 4 preflight resets buttons to the default cursor. */
+button:not(:disabled),
+a[href],
+select,
+summary,
+[role="button"],
+input[type="checkbox"],
+input[type="radio"] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 body {
   margin: 0;
   min-width: 320px;

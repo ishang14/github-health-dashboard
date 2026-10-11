@@ -4,14 +4,13 @@ import axios from "axios";
 // local dev server. The Settings page can still override this per-browser.
 export const DEFAULT_API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
-const DEFAULT_BASE_URL = DEFAULT_API_BASE_URL;
 const TOKEN_KEY = "gh.authToken";
 
 export const getApiBaseUrl = () => {
   try {
-    return localStorage.getItem("gh.apiBaseUrl") || DEFAULT_BASE_URL;
+    return localStorage.getItem("gh.apiBaseUrl") || DEFAULT_API_BASE_URL;
   } catch {
-    return DEFAULT_BASE_URL;
+    return DEFAULT_API_BASE_URL;
   }
 };
 
@@ -138,5 +137,3 @@ export const clearAllHistory = async () => {
 
   return response.data;
 };
-
-export default api;

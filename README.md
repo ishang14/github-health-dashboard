@@ -4,6 +4,30 @@ Analyze the health of any public GitHub repository across six dimensions
 (activity, maintenance, issues, pull requests, community, documentation),
 score it, and track the score over time as a trend.
 
+![Dashboard overview](docs/screenshots/dashboard-overview.png)
+
+## Screenshots
+
+| Sign in | Analyzed repositories |
+|---------|-----------------------|
+| ![Login](docs/screenshots/login.png) | ![Repositories](docs/screenshots/repositories.png) |
+
+**Repository metrics**
+
+![Repository metrics](docs/screenshots/dashboard-metrics.png)
+
+**Health trend and engineering insights**
+
+![Health trend and insights](docs/screenshots/dashboard-insights.png)
+
+**Score history**
+
+![Score history](docs/screenshots/history-trend.png)
+
+| Recent activity | Settings |
+|-----------------|----------|
+| ![Recent activity](docs/screenshots/history-activity.png) | ![Settings](docs/screenshots/settings.png) |
+
 ## Stack
 
 | Layer    | Tech |
@@ -67,9 +91,6 @@ docker compose up --build
 # client -> http://localhost:8080   server -> http://localhost:5000
 ```
 
-See **[DEPLOY.md](DEPLOY.md)** for production deployment (Render blueprint
-included, plus Railway / Fly.io / VPS notes).
-
 ## Authentication
 
 Email + password, JWT bearer tokens (7-day default). The client stores the
@@ -82,7 +103,7 @@ analyzed.
 
 | Method | Path                 | Auth | Description |
 |--------|----------------------|------|-------------|
-| `POST` | `/api/auth/register` | —    | `{ email, password }` (min 8 chars) → `{ token, user }` |
+| `POST` | `/api/auth/register` | —    | `{ name, email, password }` (name min 2 chars, password min 8) → `{ token, user }` |
 | `POST` | `/api/auth/login`    | —    | `{ email, password }` → `{ token, user }` |
 | `GET`  | `/api/auth/me`       | ✔    | Current account from the token |
 

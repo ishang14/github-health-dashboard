@@ -17,8 +17,6 @@ import {
   DEFAULT_API_BASE_URL
 } from "../services/api";
 
-const DEFAULT_BASE_URL = DEFAULT_API_BASE_URL;
-
 const Settings = () => {
   const [baseUrl, setBaseUrl] = useState(getApiBaseUrl());
   const [saved, setSaved] = useState(false);
@@ -87,11 +85,11 @@ const Settings = () => {
         <input
           value={baseUrl}
           onChange={(event) => setBaseUrl(event.target.value)}
-          placeholder={DEFAULT_BASE_URL}
+          placeholder={DEFAULT_API_BASE_URL}
           className="mt-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500"
         />
         <p className="mt-2 text-xs text-zinc-600">
-          Stored in this browser only. Default: {DEFAULT_BASE_URL}
+          Stored in this browser only. Default: {DEFAULT_API_BASE_URL}
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">

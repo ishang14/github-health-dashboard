@@ -7,6 +7,8 @@ import {
   BookOpen
 } from "lucide-react";
 
+import { scoreTextColor, scoreBarColor } from "../../utils/score";
+
 const dimensions = [
   {
     key: "activity",
@@ -45,22 +47,6 @@ const dimensions = [
     icon: BookOpen
   }
 ];
-
-const getScoreColor = (score) => {
-  if (score >= 90) return "text-emerald-400";
-  if (score >= 75) return "text-sky-400";
-  if (score >= 60) return "text-amber-400";
-  if (score >= 40) return "text-orange-400";
-  return "text-red-400";
-};
-
-const getBarColor = (score) => {
-  if (score >= 90) return "bg-emerald-400";
-  if (score >= 75) return "bg-sky-400";
-  if (score >= 60) return "bg-amber-400";
-  if (score >= 40) return "bg-orange-400";
-  return "bg-red-400";
-};
 
 const HealthDimensions = ({ categories }) => {
   return (
@@ -106,7 +92,7 @@ const HealthDimensions = ({ categories }) => {
                 </div>
 
                 <span
-                  className={`text-xl font-bold ${getScoreColor(score)}`}
+                  className={`text-xl font-bold ${scoreTextColor(score)}`}
                 >
                   {score}
                 </span>
@@ -115,7 +101,7 @@ const HealthDimensions = ({ categories }) => {
               <div className="mt-5">
                 <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
                   <div
-                    className={`h-full rounded-full transition-all duration-700 ${getBarColor(score)}`}
+                    className={`h-full rounded-full transition-all duration-700 ${scoreBarColor(score)}`}
                     style={{ width: `${score}%` }}
                   />
                 </div>
