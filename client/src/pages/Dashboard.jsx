@@ -26,8 +26,13 @@ const Dashboard = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const lastRequested = useRef("");
+  const requestId = useRef(0);
 
   const runAnalysis = useCallback(async (owner, repo) => {
+    // Lets a superseded or abandoned (browser back) request be ignored.
+    const id = ++requestId.current;
+    const isStale = () => id !== requestId.current;
+
     try {
       setLoading(true);
       setError("");
@@ -35,11 +40,14 @@ const Dashboard = () => {
       setHistory([]);
 
       const data = await analyzeRepository(owner, repo);
+      if (isStale()) return;
       setAnalysis(data);
 
       const historyData = await getRepositoryHistory(owner, repo);
+      if (isStale()) return;
       setHistory(historyData.history || []);
     } catch (err) {
+      if (isStale()) return;
       console.error(err);
       setError(
         err.response?.data?.message ||
@@ -47,7 +55,7 @@ const Dashboard = () => {
           "Unable to analyze repository."
       );
     } finally {
-      setLoading(false);
+      if (!isStale()) setLoading(false);
     }
   }, []);
 
@@ -77,7 +85,11 @@ const Dashboard = () => {
     const owner = searchParams.get("owner");
     const repo = searchParams.get("repo");
 
-    if (!owner || !repo) return;
+    if (!owner || !repo) {
+      lastRequested.current = "";
+      requestId.current++;
+      return;
+    }
 
     const key = `${owner}/${repo}`;
     if (key === lastRequested.current) return;
@@ -89,6 +101,18 @@ const Dashboard = () => {
   const activeRepo = searchParams.get("owner")
     ? `${searchParams.get("owner")}/${searchParams.get("repo")}`
     : "";
+
+  // Back to the bare dashboard (e.g. browser back): clear the previous result.
+  const [shownRepo, setShownRepo] = useState(activeRepo);
+  if (shownRepo !== activeRepo) {
+    setShownRepo(activeRepo);
+    if (!activeRepo) {
+      setAnalysis(null);
+      setHistory([]);
+      setError("");
+      setLoading(false);
+    }
+  }
 
   return (
     <>
